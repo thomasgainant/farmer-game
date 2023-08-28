@@ -1,0 +1,11 @@
+{
+	"name": "Farmer",
+	"author": "Thomas Gainant",
+	"version": "0.0.1",
+	"scripts": {
+		"build": "tsc && browserify dist/main.js > dist/bundle.js"
+	},
+	"dependencies": {
+		"browserify": "^17.0.0"
+	}
+}

@@ -1,0 +1,282 @@
+<html>
+    <head>
+        <title>Farmer</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script src="dist/bundle.js"></script>
+        <style>
+            html, body{
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            table{
+                margin: 5px;
+                border-collapse: collapse;
+            }
+
+            table tr th, table tr td{
+                border: #999 solid 1px;
+            }
+
+            #market{
+                border: #999 dashed 1px;
+            }
+
+            #players{
+                display: flex;
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .player{
+                margin: 5px;
+                border: #999 double 1px;
+            }
+
+                .player .turnIndicator{
+                    font-weight: bold;
+                }
+
+                .player .fields{
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+
+                    .player .fields .field{
+                        margin: 5px;
+                        background-color: yellowgreen;
+                    }
+        </style>
+    </head>
+    <body>
+        <div id="template_fields" class="fields">
+            <div class="field">
+                <div class="content"></div>
+                <form class="commands">
+                    <button class="harvest">Harvest</button>
+                    <button class="plant">Plant</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="game">
+            <h1 id="turnNumber"></h1>
+            <h2 id="season"></h2>
+        </div>
+
+        <div id="market">
+            <table id="items">
+                <thead>
+                    <tr>
+                        <th>Employees to hire</th>
+                        <th>Cows to buy</th>
+                        <th>Straw to buy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="employees"></td>
+                        <td id="cows"></td>
+                        <td id="straw"></td>
+                    </tr>
+                    <tr id="items_commands">
+                        <td>
+                            <form id="employees">
+                                <input type="number" min="0" value="1"/>
+                                <button>Hire</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form id="cows">
+                                <input type="number" min="0" value="1"/>
+                                <button>Buy</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form id="straw">
+                                <input type="number" min="0" value="1"/>
+                                <button>Buy</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table id="prices">
+                <thead>
+                    <tr>
+                        <th colspan="5">Current prices</th>
+                    </tr>
+                    <tr>
+                        <th>Wheat</th>
+                        <th>Straw</th>
+                        <th>Cows</th>
+                        <th>Milk</th>
+                        <th>Cheese</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="wheat"></td>
+                        <td id="straw"></td>
+                        <td id="cows"></td>
+                        <td id="milk"></td>
+                        <td id="cheese"></td>
+                    </tr>
+                    <tr id="sell_commands">
+                        <td>
+                            <form id="wheat">
+                                <input type="number" min="0" value="1"/>
+                                <button>Sell</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form id="straw">
+                                <input type="number" min="0" value="1"/>
+                                <button>Sell</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form id="cows">
+                                <input type="number" min="0" value="1"/>
+                                <button>Sell</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form id="milk">
+                                <input type="number" min="0" value="1"/>
+                                <button>Sell</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form id="cheese">
+                                <input type="number" min="0" value="1"/>
+                                <button>Sell</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="players">
+            <div id="player0" class="player">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Money</th>
+                            <th>Employees</th>
+                            <th></th>
+                            <th>Wheat</th>
+                            <th>Straw</th>
+                            <th>Cows</th>
+                            <th>Milk</th>
+                            <th>Cheese</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="money"></td>
+                            <td id="employees"></td>
+                            <td></td>
+                            <td id="wheat"></td>
+                            <td id="straw"></td>
+                            <td id="cows"></td>
+                            <td id="milk"></td>
+                            <td id="cheese"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <div id="player1" class="player">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Money</th>
+                            <th>Employees</th>
+                            <th></th>
+                            <th>Wheat</th>
+                            <th>Straw</th>
+                            <th>Cows</th>
+                            <th>Milk</th>
+                            <th>Cheese</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="money"></td>
+                            <td id="employees"></td>
+                            <td></td>
+                            <td id="wheat"></td>
+                            <td id="straw"></td>
+                            <td id="cows"></td>
+                            <td id="milk"></td>
+                            <td id="cheese"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <div id="player2" class="player">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Money</th>
+                            <th>Employees</th>
+                            <th></th>
+                            <th>Wheat</th>
+                            <th>Straw</th>
+                            <th>Cows</th>
+                            <th>Milk</th>
+                            <th>Cheese</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="money"></td>
+                            <td id="employees"></td>
+                            <td></td>
+                            <td id="wheat"></td>
+                            <td id="straw"></td>
+                            <td id="cows"></td>
+                            <td id="milk"></td>
+                            <td id="cheese"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    
+            <div id="player3" class="player">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Money</th>
+                            <th>Employees</th>
+                            <th></th>
+                            <th>Wheat</th>
+                            <th>Straw</th>
+                            <th>Cows</th>
+                            <th>Milk</th>
+                            <th>Cheese</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="money"></td>
+                            <td id="employees"></td>
+                            <td></td>
+                            <td id="wheat"></td>
+                            <td id="straw"></td>
+                            <td id="cows"></td>
+                            <td id="milk"></td>
+                            <td id="cheese"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
