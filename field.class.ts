@@ -6,6 +6,10 @@ export class Field{
         this.type = type;
         this.size = size;
     }
+
+    getPrice(){
+        return this.size * 100;
+    }
 }
 
 export namespace Field{

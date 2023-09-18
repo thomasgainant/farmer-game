@@ -20,12 +20,24 @@
                 border: #999 solid 1px;
             }
 
+            .fields{
+                display: flex;
+                flex-wrap: wrap;
+            }
+            
+                .fields .field{
+                    margin: 5px;
+                    background-color: yellowgreen;
+                }
+
             #market{
+                text-align: center;
                 border: #999 dashed 1px;
             }
 
             #players{
                 display: flex;
+                justify-content: center;
                 width: 100%;
                 flex-wrap: wrap;
             }
@@ -38,16 +50,6 @@
                 .player .turnIndicator{
                     font-weight: bold;
                 }
-
-                .player .fields{
-                    display: flex;
-                    flex-wrap: wrap;
-                }
-
-                    .player .fields .field{
-                        margin: 5px;
-                        background-color: yellowgreen;
-                    }
         </style>
     </head>
     <body>
@@ -56,7 +58,13 @@
                 <div class="content"></div>
                 <form class="commands">
                     <button class="harvest">Harvest</button>
+                    <select class="plant_type">
+                        <option value="grass">Grass</option>
+                        <option value="straw">Straw</option>
+                        <option value="wheat">Wheat</option>
+                    </select>
                     <button class="plant">Plant</button>
+                    <button class="buy">Buy</button>
                 </form>
             </div>
         </div>
@@ -66,7 +74,9 @@
             <h2 id="season"></h2>
         </div>
 
+        <h2>Market</h2>
         <div id="market">
+            <div id="fields"></div>
             <table id="items">
                 <thead>
                     <tr>
@@ -161,6 +171,7 @@
             </table>
         </div>
 
+        <h2>Players</h2>
         <div id="players">
             <div id="player0" class="player">
                 <table>

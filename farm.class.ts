@@ -4,8 +4,7 @@ export class Farm{
     public money:number = 500;
 
     public fields:Field[] = [
-        new Field(Field.Type.Grass, 2),
-        new Field(Field.Type.Straw, 2)
+        new Field(Field.Type.Grass, 2)
     ];
 
     public employees:number = 1;

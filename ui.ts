@@ -95,9 +95,76 @@ export class UI{
             let player = this.getCurrentTurn().players[i];
             this.updatePlayer(this.getCurrentTurn(), player);
         }
+
+        let playerBlocks = document.querySelectorAll("#players .player");
+        console.log(playerBlocks);
+        console.log(this.getCurrentTurn().players);
+        if(this.getCurrentTurn().players.length < playerBlocks.length){
+            for(let i = playerBlocks.length; i > playerBlocks.length - this.getCurrentTurn().players.length; i--){
+                let playerBlockToRemove = document.querySelector("#players #player"+(i - 1))
+                console.log(playerBlockToRemove);
+                playerBlockToRemove?.remove();
+            }
+        }
     }
 
     private updateMarket(){
+        let original = document.querySelector("#template_fields");
+        original?.setAttribute("style", "display:none");
+
+        document.querySelector("#market #fields")?.remove();
+        let fieldsNode = original?.cloneNode(true);
+        document.querySelector("#market")?.appendChild(fieldsNode!);
+        let fieldsElement = document.querySelector("#market .fields");
+        fieldsElement?.setAttribute("id", "fields");
+        fieldsElement?.setAttribute("style", "");
+
+        let template_fieldElement = document.querySelector("#market #fields .field");
+
+        for(let j = 0; j < this.market.fieldsToBuy.length; j++){
+            let fieldNode = template_fieldElement?.cloneNode(true);
+            template_fieldElement?.parentElement!.appendChild(fieldNode!);
+            
+            let field = this.market.fieldsToBuy[j];
+            let fieldElements = document.querySelectorAll("#market #fields .field");
+            let fieldElement = fieldElements[fieldElements.length - 1];
+
+            if(field.type == Field.Type.Wheat){
+                let content = "";
+                for(let k = 0; k < field.size; k++){
+                    content += "\\|/";
+                }
+                fieldElement!.querySelector(".content")!.innerHTML = content;
+            }
+            else if (field.type == Field.Type.Straw){
+                let content = "";
+                for(let k = 0; k < field.size; k++){
+                    content += "|";
+                }
+                fieldElement!.querySelector(".content")!.innerHTML = content;
+            }
+            else{
+                let content = "";
+                for(let k = 0; k < field.size; k++){
+                    content += "w";
+                }
+                fieldElement!.querySelector(".content")!.innerHTML = content;
+            }
+
+            if(this.getCurrentTurn().players[this.getCurrentTurn().current].ai)
+                fieldElement.querySelector(".commands")?.setAttribute("style", "display: none;");
+            else{
+                fieldElement.querySelector(".commands .buy")?.addEventListener("click", (e:Event) => {
+                    e.preventDefault();
+                    this.avatar.buyField(this.getCurrentTurn(), field);
+                });
+            }
+            fieldElement.querySelector(".commands .harvest")?.setAttribute("style", "display: none;");
+            fieldElement.querySelector(".commands .plant_type")?.setAttribute("style", "display: none;");
+            fieldElement.querySelector(".commands .plant")?.setAttribute("style", "display: none;");
+        }
+        template_fieldElement?.setAttribute("style", "display:none");
+
         document.querySelector("#market #items #employees")!.innerHTML = this.market.employeesToHire+"";
         document.querySelector("#market #items #cows")!.innerHTML = this.market.cowsToBuy+"";
         document.querySelector("#market #items #straw")!.innerHTML = (this.market.strawsToBuy*100)+" kilos";
@@ -188,6 +255,17 @@ export class UI{
                     e.preventDefault();
                     this.avatar.harvest(turn, field);
                 });
+                fieldElement.querySelector(".commands .plant")?.addEventListener("click", (e:Event) => {
+                    e.preventDefault();
+                    let typeRaw = (fieldElement.querySelector(".commands .plant_type") as any)!.value;
+                    let type = Field.Type.Grass;
+                    if(typeRaw == "straw")
+                        type = Field.Type.Straw;
+                    else if(typeRaw == "wheat")
+                        type = Field.Type.Wheat;
+                    this.avatar.plant(turn, field, type);
+                });
+                fieldElement.querySelector(".commands .buy")?.setAttribute("style", "display: none;");
             }
         }
 
